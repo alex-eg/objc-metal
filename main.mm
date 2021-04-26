@@ -7,9 +7,9 @@
 #include <QuartzCore/CVDisplayLink.h>
 
 static float vertexData[] = {
-    0.0f, 0.87f, 1.0f, 0.0f,    1.0f, 0.0f, 0.0f, 1.0f,
-    0.5f, 0.0f,  0.0f, 0.0f,    0.0f, 1.0f, 0.0f, 1.0f,
-   -0.5f, 1.0f,  0.0f, 0.0f,    0.0f, 0.0f, 1.0f, 1.0f,
+    0.0f,   0.87f, 0.0f, 1.0f,    1.0f, 0.0f, 0.0f, 1.0f,
+    0.87f, -0.87f, 0.0f, 1.0f,    0.0f, 1.0f, 0.0f, 1.0f,
+   -0.87f, -0.87f, 0.0f, 1.0f,    0.0f, 0.0f, 1.0f, 1.0f,
 };
 
 static NSString *shaderLib = @"\n"
