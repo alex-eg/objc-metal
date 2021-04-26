@@ -12,37 +12,6 @@ static float vertexData[] = {
    -0.87f, -0.87f, 0.0f, 1.0f,    0.0f, 0.0f, 1.0f, 1.0f,
 };
 
-static NSString *shaderLib = @"\n"
-"#include <metal_stdlib>\n"
-"#include <simd/simd.h>\n"
-"\n"
-"using namespace metal;\n"
-"\n"
-"typedef struct\n"
-"{\n"
-"    float4 position;\n"
-"    float4 color;\n"
-"} VertexIn;\n"
-"\n"
-"typedef struct {\n"
-"    float4 position [[position]];\n"
-"    half4  color;\n"
-"} VertexOut;\n"
-"\n"
-"vertex VertexOut vertex_function(device VertexIn *vertices [[buffer(0)]],\n"
-"                                 uint vid [[vertex_id]])\n"
-"{\n"
-"    VertexOut out;\n"
-"    out.position = vertices[vid].position;\n"
-"    out.color = half4(vertices[vid].color);\n"
-"    return out;\n"
-"}\n"
-"\n"
-"fragment half4 fragment_function(VertexOut in [[stage_in]])\n"
-"{\n"
-"    return half4(1.0, 1.0, 1.0, 1.0);\n"
-"}\n";
-
 @interface Renderer : NSObject<MTKViewDelegate>
 // Long-lived Metal objects
 @property (nonatomic, strong) id<MTLDevice> device;
@@ -81,7 +50,13 @@ static NSString *shaderLib = @"\n"
     MTLCompileOptions* compileOptions = [MTLCompileOptions new];
     compileOptions.languageVersion = MTLLanguageVersion1_1;
     NSError* compileError;
-    self.defaultLibrary = [self.device newLibraryWithSource:shaderLib
+
+    NSString* path = [[NSBundle mainBundle] pathForResource:@"shaders"
+                                                     ofType:@"metal"];
+    NSString* content = [NSString stringWithContentsOfFile:path
+                                                  encoding:NSUTF8StringEncoding
+                                                     error:NULL];
+    self.defaultLibrary = [self.device newLibraryWithSource:content
                                                     options:compileOptions
                                                       error:&compileError];
     if (!self.defaultLibrary) {
